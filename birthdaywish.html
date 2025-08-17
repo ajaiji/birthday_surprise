@@ -1,204 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy Birthday Vanuuu 🐼</title>
-  <style>
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      overflow: hidden;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Vanuuu 🐼</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Dancing Script', cursive;
+        overflow: hidden;
+        height: 100vh;
+        position: relative;
     }
 
-    /* Page backgrounds */
-    #overlay {
-      background: lightpink;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 10;
-    }
-    #mainContent {
-      background: lightblue;
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+    /* Overlay Styling (First Page - Light Pink) */
+    .overlay {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #ffe6f0; /* light pink */
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 10;
+        flex-direction: column;
+        text-align: center;
+        overflow: hidden;
     }
 
-    h1.gift-title {
-      font-size: 2.5rem;
-      margin: 10px;
+    .gift-title {
+        font-size: 2.5em;
+        color: #d6336c;
+        font-family: 'Great Vibes', cursive;
     }
-    p.gift-sub {
-      font-size: 1.2rem;
-      margin: 5px;
+
+    .gift-sub {
+        font-size: 1.2em;
+        margin-bottom: 15px;
+        color: #333;
     }
-    button.open-btn {
-      padding: 12px 24px;
-      font-size: 1.2rem;
-      border-radius: 10px;
-      border: none;
-      background: #ff69b4;
-      color: white;
-      cursor: pointer;
-      margin-top: 20px;
+
+    .open-btn {
+        padding: 12px 24px;
+        background: #ff4d6d;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: 0.3s;
     }
+
+    .open-btn:hover {
+        background: #d6336c;
+    }
+
     .hint {
-      margin-top: 10px;
-      font-style: italic;
+        font-size: 0.9em;
+        color: #555;
+        font-style: italic;
     }
 
-    /* Falling items */
-    .petal, .balloon {
-      position: absolute;
-      top: -50px;
-      pointer-events: auto;
-      user-select: none;
-    }
-    .petal {
-      font-size: 24px;
-      color: pink;
-    }
-    .balloon {
-      font-size: 28px;
+    /* Second Page (Light Blue) */
+    #mainContent {
+        display: none;
+        padding: 50px;
+        text-align: center;
+        height: 100vh;
+        background: #cce7ff; /* light blue */
+        overflow: hidden;
+        position: relative;
     }
 
-    .heart {
-      position: absolute;
-      font-size: 20px;
-      color: red;
-      animation: floatUp 1s forwards;
-    }
+    /* Confetti burst */
     .confetti {
-      position: absolute;
-      font-size: 14px;
-      animation: explode 1s forwards;
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background-color: red;
+        opacity: 0.8;
+        pointer-events: none;
+        z-index: 999;
     }
 
-    @keyframes floatUp {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-50px); opacity: 0; }
+    /* Rose petals */
+    .petal {
+        position: fixed;
+        top: -20px;
+        width: 20px;
+        height: 20px;
+        background: pink;
+        border-radius: 50% 50% 50% 0;
+        opacity: 0.8;
+        transform: rotate(45deg);
+        pointer-events: none;
+        z-index: 5;
+        animation: fall linear forwards;
     }
-    @keyframes explode {
-      0% { opacity: 1; }
-      100% { transform: translateY(50px) scale(0); opacity: 0; }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh) rotate(360deg);
+            opacity: 0;
+        }
     }
-  </style>
+
+    /* 🎈 Balloon with handle */
+    .balloon {
+        position: fixed;
+        bottom: -120px;
+        width: 50px;
+        height: 70px;
+        background-color: red;
+        border-radius: 50% 50% 50% 50%;
+        pointer-events: auto;
+        z-index: 6;
+        animation: rise linear forwards;
+    }
+
+    .balloon::after {
+        content: "";
+        position: absolute;
+        bottom: -40px;
+        left: 50%;
+        width: 2px;
+        height: 40px;
+        background: black;
+        transform: translateX(-50%);
+    }
+
+    @keyframes rise {
+        to {
+            transform: translateY(-120vh);
+            opacity: 0;
+        }
+    }
+</style>
 </head>
 <body>
-  <!-- First Page (Overlay) -->
-  <div id="overlay">
+
+<!-- Audio Files -->
+<audio id="loveSong" src="love-stuck.mp3"></audio>
+<audio id="birthdaySong" src="happy-birthday.mp3"></audio>
+<audio id="popSound" src="pop.mp3"></audio>
+
+<!-- Overlay (Page 1) -->
+<div class="overlay" id="overlay">
     <h1 class="gift-title">Happy Birthday Vanuuu 🐼!</h1>
     <p class="gift-sub">A little surprise made just for you ❤️</p>
     <button class="open-btn" id="openBtn">Click to unwrap your love 💌</button>
     <p class="hint">A tiny piece of my heart, just for you 💖</p>
-  </div>
+</div>
 
-  <!-- Second Page (Main Content) -->
-  <div id="mainContent">
-    <h1>Welcome to Memory Lane 💕</h1>
-    <p>Our love, our story, our journey 🎉</p>
-  </div>
+<!-- Main Content (Page 2) -->
+<div id="mainContent">
+    <h2>🌸 Memory Lane 🌸</h2>
+    <p>Here’s where we’ll put our sweetest memories...</p>
+</div>
 
-  <!-- Music -->
-  <audio id="loveSong" src="love-stuck.mp3"></audio>
-  <audio id="birthdaySong" src="happy-birthday.mp3"></audio>
+<script>
+    const openBtn = document.getElementById('openBtn');
+    const overlay = document.getElementById('overlay');
+    const mainContent = document.getElementById('mainContent');
+    const loveSong = document.getElementById('loveSong');
+    const birthdaySong = document.getElementById('birthdaySong');
+    const popSound = document.getElementById('popSound');
 
-  <script>
-    const overlay = document.getElementById("overlay");
-    const mainContent = document.getElementById("mainContent");
-    const openBtn = document.getElementById("openBtn");
-    const loveSong = document.getElementById("loveSong");
-    const birthdaySong = document.getElementById("birthdaySong");
-
-    openBtn.addEventListener("click", () => {
-      loveSong.play();
-      // Delay before switching pages
-      setTimeout(() => {
-        overlay.style.display = 'none';
-        mainContent.style.display = 'flex';
-        loveSong.pause();
-        birthdaySong.play();
-        startPetals();
-        startBalloons();
-      }, 500); // changed from 2000 → 500
-    });
-
-    function startPetals() {
-      setInterval(() => {
-        const petal = document.createElement("div");
-        petal.classList.add("petal");
-        petal.innerHTML = "🌸";
-        petal.style.left = Math.random() * window.innerWidth + "px";
-        document.body.appendChild(petal);
-
-        let fall = setInterval(() => {
-          let top = petal.offsetTop;
-          if (top < window.innerHeight - 20) {
-            petal.style.top = top + 2 + "px";
-          } else {
-            clearInterval(fall);
-            petal.remove();
-          }
-        }, 20);
-
-        petal.addEventListener("click", () => {
-          petal.remove();
-          const heart = document.createElement("div");
-          heart.classList.add("heart");
-          heart.innerHTML = "❤️";
-          heart.style.left = petal.style.left;
-          heart.style.top = petal.style.top;
-          document.body.appendChild(heart);
-          setTimeout(() => heart.remove(), 1000);
-        });
-      }, 1500);
-    }
-
+    // 🎈 Balloons inside overlay
     function startBalloons() {
-      setInterval(() => {
-        const balloon = document.createElement("div");
-        balloon.classList.add("balloon");
-        balloon.innerHTML = "🎈";
-        balloon.style.left = Math.random() * window.innerWidth + "px";
-        balloon.style.top = window.innerHeight + "px";
-        document.body.appendChild(balloon);
+        setInterval(() => {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            balloon.style.left = Math.random() * 100 + 'vw';
+            balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+            balloon.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            overlay.appendChild(balloon);
 
-        let rise = setInterval(() => {
-          let top = balloon.offsetTop;
-          if (top > -50) {
-            balloon.style.top = top - 2 + "px";
-          } else {
-            clearInterval(rise);
-            balloon.remove();
-          }
-        }, 20);
+            // Pop into confetti on click
+            balloon.addEventListener('click', (event) => {
+                popSound.play();
+                confettiBurst(event.clientX, event.clientY);
+                balloon.remove();
+            });
 
-        balloon.addEventListener("click", () => {
-          balloon.remove();
-          for (let i = 0; i < 6; i++) {
-            const confetti = document.createElement("div");
-            confetti.classList.add("confetti");
-            confetti.innerHTML = "✨";
-            confetti.style.left = balloon.style.left;
-            confetti.style.top = balloon.style.top;
-            document.body.appendChild(confetti);
-            setTimeout(() => confetti.remove(), 1000);
-          }
-        });
-      }, 2000);
+            setTimeout(() => balloon.remove(), 11000);
+        }, 1000);
     }
-  </script>
+
+    // 🌸 Petals inside mainContent
+    function startPetals() {
+        setInterval(() => {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.background = `hsl(${Math.random() * 20 + 340}, 80%, 75%)`; 
+            petal.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            mainContent.appendChild(petal);
+            setTimeout(() => petal.remove(), 11000);
+        }, 500);
+    }
+
+    // 🎉 Confetti burst
+    function confettiBurst(x, y) {
+        for (let i = 0; i < 40; i++) {
+            const conf = document.createElement('div');
+            conf.classList.add('confetti');
+            conf.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            conf.style.left = `${x}px`;
+            conf.style.top = `${y}px`;
+            document.body.appendChild(conf);
+
+            const angle = Math.random() * 2 * Math.PI;
+            const velocity = Math.random() * 6 + 2;
+            const dx = Math.cos(angle) * velocity;
+            const dy = Math.sin(angle) * velocity;
+
+            let px = x, py = y, opacity = 1;
+
+            function animate() {
+                px += dx;
+                py += dy;
+                opacity -= 0.02;
+                conf.style.left = `${px}px`;
+                conf.style.top = `${py}px`;
+                conf.style.opacity = opacity;
+                if (opacity > 0) requestAnimationFrame(animate);
+                else conf.remove();
+            }
+            animate();
+        }
+    }
+
+    // Start balloons only on first page
+    startBalloons();
+
+    // Switch to second page with confetti burst
+    openBtn.addEventListener('click', (e) => {
+        loveSong.play();
+        popSound.play();
+        confettiBurst(window.innerWidth / 2, window.innerHeight / 2); // 🎉 center burst
+
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            mainContent.style.display = 'block';
+            loveSong.pause();
+            birthdaySong.play();
+            startPetals(); // 🌸 petals after entering second page
+        }, 500); // ⏱ reduced from 2000 → 500
+    });
+</script>
+
 </body>
 </html>
