@@ -1,153 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Birthday Surprise 🎉</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Vanuuu 🐼</title>
   <style>
-    body {
+    body, html {
       margin: 0;
-      font-family: 'Quicksand', sans-serif;
+      padding: 0;
+      height: 100%;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       overflow: hidden;
     }
-    .overlay {
-      background-color: lightpink;
-      height: 100vh;
+
+    /* Page backgrounds */
+    #overlay {
+      background: lightpink;
+      position: absolute;
+      width: 100%;
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      text-align: center;
+      z-index: 10;
     }
-    .gift-title {
+    #mainContent {
+      background: lightblue;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    h1.gift-title {
       font-size: 2.5rem;
       margin: 10px;
     }
-    .gift-sub, .hint {
+    p.gift-sub {
       font-size: 1.2rem;
       margin: 5px;
     }
-    .open-btn {
-      margin-top: 20px;
-      padding: 12px 20px;
+    button.open-btn {
+      padding: 12px 24px;
       font-size: 1.2rem;
+      border-radius: 10px;
       border: none;
-      border-radius: 8px;
-      background-color: #ff4d6d;
+      background: #ff69b4;
       color: white;
       cursor: pointer;
-      transition: 0.3s;
+      margin-top: 20px;
     }
-    .open-btn:hover {
-      background-color: #e63956;
+    .hint {
+      margin-top: 10px;
+      font-style: italic;
     }
-    .main-content {
-      display: none;
-      background-color: lightblue;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 2rem;
-      position: relative;
-      overflow: hidden;
+
+    /* Falling items */
+    .petal, .balloon {
+      position: absolute;
+      top: -50px;
+      pointer-events: auto;
+      user-select: none;
     }
     .petal {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: pink;
-      border-radius: 50% 50% 50% 50%;
-      pointer-events: none;
-      opacity: 0.8;
-      animation: fall 5s linear infinite;
+      font-size: 24px;
+      color: pink;
     }
-    @keyframes fall {
-      0% { transform: translateY(-10vh) rotate(0deg); }
-      100% { transform: translateY(110vh) rotate(360deg); }
+    .balloon {
+      font-size: 28px;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: red;
+      animation: floatUp 1s forwards;
     }
     .confetti {
       position: absolute;
-      width: 8px;
-      height: 8px;
-      background: red;
-      opacity: 0.9;
-      animation: confetti-fall 1s ease-out forwards;
+      font-size: 14px;
+      animation: explode 1s forwards;
     }
-    @keyframes confetti-fall {
-      0% { transform: translateY(0) scale(1); opacity: 1; }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-50px); opacity: 0; }
+    }
+    @keyframes explode {
+      0% { opacity: 1; }
       100% { transform: translateY(50px) scale(0); opacity: 0; }
     }
   </style>
 </head>
 <body>
-  <!-- First Page -->
-  <div class="overlay" id="overlay">
+  <!-- First Page (Overlay) -->
+  <div id="overlay">
     <h1 class="gift-title">Happy Birthday Vanuuu 🐼!</h1>
     <p class="gift-sub">A little surprise made just for you ❤️</p>
     <button class="open-btn" id="openBtn">Click to unwrap your love 💌</button>
     <p class="hint">A tiny piece of my heart, just for you 💖</p>
   </div>
 
-  <!-- Second Page -->
-  <div class="main-content" id="mainContent">
-    <h2>Welcome to Memory Lane 💕</h2>
+  <!-- Second Page (Main Content) -->
+  <div id="mainContent">
+    <h1>Welcome to Memory Lane 💕</h1>
+    <p>Our love, our story, our journey 🎉</p>
   </div>
 
   <!-- Music -->
-  <audio id="loveSong" src="love-struck.mp3"></audio>
+  <audio id="loveSong" src="love-stuck.mp3"></audio>
   <audio id="birthdaySong" src="happy-birthday.mp3"></audio>
-  <audio id="popSound" src="pop.mp3"></audio>
 
   <script>
-    const openBtn = document.getElementById('openBtn');
-    const overlay = document.getElementById('overlay');
-    const mainContent = document.getElementById('mainContent');
-    const loveSong = document.getElementById('loveSong');
-    const birthdaySong = document.getElementById('birthdaySong');
-    const popSound = document.getElementById('popSound');
+    const overlay = document.getElementById("overlay");
+    const mainContent = document.getElementById("mainContent");
+    const openBtn = document.getElementById("openBtn");
+    const loveSong = document.getElementById("loveSong");
+    const birthdaySong = document.getElementById("birthdaySong");
 
-    // Confetti burst function
-    function confettiBurst(x, y) {
-      for (let i = 0; i < 30; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = x + 'px';
-        confetti.style.top = y + 'px';
-        confetti.style.backgroundColor = 
-          ['red','blue','yellow','green','purple','orange'][Math.floor(Math.random()*6)];
-        confetti.style.transform = `rotate(${Math.random()*360}deg)`;
-        document.body.appendChild(confetti);
-
-        setTimeout(() => confetti.remove(), 1000);
-      }
-    }
-
-    // Petals falling
-    function startPetals() {
-      setInterval(() => {
-        const petal = document.createElement('div');
-        petal.classList.add('petal');
-        petal.style.left = Math.random() * window.innerWidth + 'px';
-        document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), 5000);
-      }, 300);
-    }
-
-    // Button click → small delay (0.5s)
-    openBtn.addEventListener('click', () => {
+    openBtn.addEventListener("click", () => {
       loveSong.play();
-      popSound.play();
-      confettiBurst(window.innerWidth / 2, window.innerHeight / 2);
-
+      // Delay before switching pages
       setTimeout(() => {
         overlay.style.display = 'none';
         mainContent.style.display = 'flex';
         loveSong.pause();
         birthdaySong.play();
         startPetals();
-      }, 500); // 0.5s instead of 2s
+        startBalloons();
+      }, 500); // changed from 2000 → 500
     });
+
+    function startPetals() {
+      setInterval(() => {
+        const petal = document.createElement("div");
+        petal.classList.add("petal");
+        petal.innerHTML = "🌸";
+        petal.style.left = Math.random() * window.innerWidth + "px";
+        document.body.appendChild(petal);
+
+        let fall = setInterval(() => {
+          let top = petal.offsetTop;
+          if (top < window.innerHeight - 20) {
+            petal.style.top = top + 2 + "px";
+          } else {
+            clearInterval(fall);
+            petal.remove();
+          }
+        }, 20);
+
+        petal.addEventListener("click", () => {
+          petal.remove();
+          const heart = document.createElement("div");
+          heart.classList.add("heart");
+          heart.innerHTML = "❤️";
+          heart.style.left = petal.style.left;
+          heart.style.top = petal.style.top;
+          document.body.appendChild(heart);
+          setTimeout(() => heart.remove(), 1000);
+        });
+      }, 1500);
+    }
+
+    function startBalloons() {
+      setInterval(() => {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.innerHTML = "🎈";
+        balloon.style.left = Math.random() * window.innerWidth + "px";
+        balloon.style.top = window.innerHeight + "px";
+        document.body.appendChild(balloon);
+
+        let rise = setInterval(() => {
+          let top = balloon.offsetTop;
+          if (top > -50) {
+            balloon.style.top = top - 2 + "px";
+          } else {
+            clearInterval(rise);
+            balloon.remove();
+          }
+        }, 20);
+
+        balloon.addEventListener("click", () => {
+          balloon.remove();
+          for (let i = 0; i < 6; i++) {
+            const confetti = document.createElement("div");
+            confetti.classList.add("confetti");
+            confetti.innerHTML = "✨";
+            confetti.style.left = balloon.style.left;
+            confetti.style.top = balloon.style.top;
+            document.body.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 1000);
+          }
+        });
+      }, 2000);
+    }
   </script>
 </body>
 </html>
